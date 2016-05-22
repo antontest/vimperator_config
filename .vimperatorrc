@@ -6,6 +6,9 @@
 echomsg "Loading..."
 autocmd VimperatorEnter .* pluginmanager update
 
+" Set map leader
+let mapleader = ","
+
  ブラウザのタイトル
  " ブラウザタイトルの変更
  set titlestring=Firefox
@@ -29,6 +32,24 @@ autocmd VimperatorEnter .* pluginmanager update
 
 "タブオープンやオープンで何を表示するか
 set complete=lsSt
+
+" Show completions as you type? '' waits for tab, 'auto' shows them immediately
+set wildoptions=''
+
+" Select the longest autocomplete match
+set wildmode='list:full'
+
+" Show a (n)umber on tabs, the (b)ottom scrollbar, and the (r)ight scrollbar
+set guioptions=nbrmT
+
+" Always show tab bar
+set showtabline=1
+
+" Don't beep
+set noerrorbells
+
+" Make Firefox run faster by using JIT
+set! javascript.options.jit.chrome=true
 
 " undo保持数
 set! browser.sessionstore.max_tabs_undo=10 
@@ -88,6 +109,27 @@ set messages=100
 set visualbell
 hi Bell opacity: .5;
 
+" Elements of the status line
+set status=input,location,tabcount,position
+
+" Command line and search patterns history
+set history=10000
+
+" Show pattern matches as you type
+set incsearch
+
+
+" Hilight previous search pattern matches
+set hlsearch
+
+" Focus content after a page has loaded
+set focuscontent
+
+"==============================================================="
+"検索は大文字/小文字無視
+"==============================================================="
+set ignorecase smartcase
+
 " mappings
 " ======================================================================
 " OSのキーバインドを再現 
@@ -106,6 +148,33 @@ hi Bell opacity: .5;
 " cnoremap <C-v> <C-v><C-v>
 " cnoremap <C-x> <C-v><C-x>
 " cnoremap <C-z> <C-v><C-z>
+
+" M-x enters command mode
+noremap <A-x> :
+
+" Or use them to go to the absolute left/right of the document
+noremap <C-a> 0
+noremap <C-e> $
+
+" Dialog selection with d
+map d :dialog<SPACE>
+
+" Kill the buffer with C-x k
+" noremap <C-x>k d
+noremap D d
+
+" scroll down
+noremap <C-Space> <C-d>
+
+noremap <A-i> <Esc>
+inoremap <A-i> <Esc>
+cnoremap <A-i> <Esc>
+
+" Copy
+noremap <C-c> i<C-c>
+
+" 用gi快速进入Insert模式时转入TEXTAREA模式
+" noremap gi gi<C-t>
 
 "j/kの移動量を7倍に
 nnoremap j 7j
@@ -137,7 +206,9 @@ map ! :set invum<CR>
 " ブックマークに追加
 map B :bmark<Space>-keyword=
 " U で最近閉じたタブ表示
+" qmark g http://gfsoso.99lb.net/
 map U :u<Space>
+map S :stop<CR>
 
 map qm :qmark<Space>
 map qa :qmarks<CR>
@@ -145,12 +216,13 @@ qmark 1 192.168.0.1
 qmark 2 http://www.dy2018.com/
 qmark 3 https://mail.163.com
 qmark D http://share.xfsub.com:88/
-qmark g http://gfsoso.99lb.net/
 qmark k http://bbs.kafan.cn
+qmark g https://www.google.com/?gws_rd=ssl
 qmark G http://github.com
 qmark t http://www.tudou.com/
 qmark o http://www.oschina.net/
 qmark w https://wx.qq.com
+qmark W https://note.wiz.cn/login
 qmark y http://www.youku.com/
 qmark x http://lixian.xunlei.com/task.html
 qmark Z http://www.zimuzu.tv/
@@ -266,9 +338,6 @@ EOF
 :style -name commandline-ime chrome://* #liberator-commandline-command input
 {ime-mode: inactive;}
 
-" 読み込みおわったらメッセージ
-echomsg "vimperator: Welcome back."
-
 " colorscheme
 " ======================================================================
 " colorscheme BrewBlue
@@ -279,4 +348,46 @@ style -name tab-style-fix chrome://* <<EOM
     }
 EOM
 
+
+" Adds RSS icon on the bottom status bar.
+" From: http://blog.thetoast.net/2009/02/vimp-update.html
+javascript <<EOF
+(function(){
+ var feedPanel = document.createElement("statusbarpanel");
+ feedPanel.setAttribute("id", "feed-panel-clone");
+ feedPanel.appendChild(document.getElementById("feed-button"));
+ feedPanel.firstChild.setAttribute("style", "padding: 0;
+         max-height: 16px;");
+ document.getElementById("status-bar").insertBefore(feedPanel,
+         document.getElementById("security-button"));
+ })();
+
+EOF
+
+" Make bar yellow when focused.
+" From: http://www.reddit.com/r/linux/comments/99d55/i_could_use_a_little_vimperator_help_also/
+javascript <<EOF
+(function() {
+ var inputElement =
+ document.getElementById('liberator-commandline-command');
+ function swapBGColor(event) {
+ inputElement.style.backgroundColor = event.type
+ == "focus" ? "black" : "";
+ }
+ inputElement.addEventListener('focus',
+         swapBGColor, false);
+ inputElement.addEventListener('blur',
+         swapBGColor,
+         false);
+ })();
+EOF
+
+" statusline {{{
+    :set statuslinetoolbars=feed-button,firebug-button,greasemonkey-tbb,stylish-toolbar-button
+" }}}
+
 " vim: set ft=vimperator:
+" 読み込みおわったらメッセージ
+
+echomsg "vimperator: Welcome back."
+
