@@ -161,10 +161,12 @@ map d :dialog<SPACE>
 
 " Kill the buffer with C-x k
 " noremap <C-x>k d
-noremap D d
+" noremap D d
 
 " scroll down
 noremap <C-Space> <C-d>
+noremap J <C-d>
+noremap K <C-u>
 
 noremap <A-i> <Esc>
 inoremap <A-i> <Esc>
