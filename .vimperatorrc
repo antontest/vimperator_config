@@ -142,6 +142,7 @@ set ignorecase smartcase
 " inoremap <C-x> <C-v><C-x>
 " inoremap <C-z> <C-v><C-z>
 " inoremap <C-Space> <C-v><C-Space>
+inoremap <C-a> <C-Esc><C-a><C-Esc>
  
 " cnoremap <C-a> <C-v><C-a>
 " cnoremap <C-c> <C-v><C-c>
@@ -153,11 +154,11 @@ set ignorecase smartcase
 noremap <A-x> :
 
 " Or use them to go to the absolute left/right of the document
-noremap <C-a> 0
+noremap <C-h> 0
 noremap <C-e> $
 
 " Dialog selection with d
-map d :dialog<SPACE>
+" map d :dialog<SPACE>
 
 " Kill the buffer with C-x k
 " noremap <C-x>k d
@@ -177,6 +178,7 @@ noremap <C-c> i<C-c>
 
 " 用gi快速进入Insert模式时转入TEXTAREA模式
 " noremap gi gi<C-t>
+noremap gi gi<End>
 
 "j/kの移動量を7倍に
 nnoremap j 7j
