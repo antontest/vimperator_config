@@ -246,6 +246,8 @@ qmark Z http://www.zimuzu.tv/
 " move tabs
 map <C-Left> :tabm -1<CR>
 map <C-Right> :tabm +1<CR>
+map <S-h> :tabm -1<CR>
+map <S-l> :tabm +1<CR>
 
 " ,bにてブックマーク検索
 com! -complete=bookmark -nargs=+ ob :o <args>
